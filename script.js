@@ -140,6 +140,7 @@ const dom = {
     playAll: document.getElementById('play-all'),
     searchInput: document.getElementById('search-input'),
     selectToggle: document.getElementById('select-toggle'),
+    pwaInstall: document.getElementById('pwa-install'),
     sleepTimerBtn: document.getElementById('sleep-timer-btn'),
     sleepTimerDisplay: document.getElementById('sleep-timer-display')
 };
@@ -197,6 +198,31 @@ function setupEventListeners() {
         renderList();
         dom.fileInput.value = '';
     };
+
+    // PWA Install Logic
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        dom.pwaInstall.classList.remove('hidden');
+    });
+
+    dom.pwaInstall.onclick = async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+            dom.pwaInstall.classList.add('hidden');
+        }
+    };
+
+    window.addEventListener('appinstalled', () => {
+        dom.pwaInstall.classList.add('hidden');
+        deferredPrompt = null;
+    });
 
     dom.openPlayer.onclick = () => {
         dom.listView.classList.remove('active');
