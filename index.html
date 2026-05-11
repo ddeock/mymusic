@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Vibe Music</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Vibe Music">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <div id="app">
+        <!-- Main List View -->
+        <section id="list-view" class="view active">
+            <header>
+                <h1>내 음악</h1>
+                <div class="header-actions">
+                    <button id="select-toggle" title="전체 선택/해제"><i class="fas fa-check-double"></i></button>
+                    <button id="shuffle-all" title="랜덤 재생"><i class="fas fa-random"></i></button>
+                    <button id="play-all" title="순차 재생"><i class="fas fa-play"></i></button>
+                </div>
+            </header>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="곡명 또는 아티스트 검색...">
+            </div>
+
+            <div id="music-list-container">
+                <ul id="music-list">
+                    <!-- Music items will be injected here -->
+                    <li class="empty-state">
+                        <i class="fas fa-music"></i>
+                        <p>추가된 음악이 없습니다.<br>아래 버튼을 눌러 음악을 추가하세요.</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-controls">
+                <div id="mini-player" class="hidden">
+                    <div class="mini-info" id="open-player">
+                        <div class="mini-art"></div>
+                        <div class="mini-text">
+                            <span class="mini-title">곡 제목</span>
+                            <span class="mini-artist">아티스트</span>
+                        </div>
+                    </div>
+                    <div class="mini-btns">
+                        <button id="mini-play-pause"><i class="fas fa-play"></i></button>
+                    </div>
+                </div>
+                <button id="add-music-btn"><i class="fas fa-plus"></i></button>
+            </div>
+        </section>
+
+        <!-- Full Player View -->
+        <section id="player-view" class="view">
+            <nav class="player-nav">
+                <button id="close-player"><i class="fas fa-chevron-left"></i></button>
+                <div class="player-nav-center">
+                    <span class="now-playing-label">재생 중</span>
+                    <span id="sleep-timer-display" class="timer-badge"></span>
+                </div>
+                <div class="player-nav-right">
+                    <button id="sleep-timer-btn" title="취침 예약"><i class="fas fa-moon"></i></button>
+                </div>
+            </nav>
+
+            <div class="album-art-container">
+                <div id="player-album-art">
+                    <i class="fas fa-music"></i>
+                </div>
+            </div>
+
+            <div class="track-info">
+                <h2 id="player-title">곡 제목</h2>
+                <p id="player-artist">아티스트</p>
+            </div>
+
+            <div class="progress-container">
+                <input type="range" id="progress-bar" value="0" min="0" max="100">
+                <div class="time-info">
+                    <span id="current-time">0:00</span>
+                    <span id="total-time">0:00</span>
+                </div>
+            </div>
+
+            <div class="player-controls">
+                <button id="repeat-btn" class="alt-btn"><i class="fas fa-redo-alt"></i></button>
+                <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
+                <button id="main-play-pause" class="play-btn"><i class="fas fa-play"></i></button>
+                <button id="next-btn"><i class="fas fa-step-forward"></i></button>
+                <button id="shuffle-btn" class="alt-btn"><i class="fas fa-random"></i></button>
+            </div>
+        </section>
+
+        <!-- Hidden File Input -->
+        <input type="file" id="file-input" multiple accept="audio/*" style="display: none;">
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
